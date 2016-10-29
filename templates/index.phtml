@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Fuzzy Telegram: <?php echo $quote['title'] ?></title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="<?php echo getenv('ASSETS_BASE_URL') ?>assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="<?php echo getenv('ASSETS_BASE_URL') ?>assets/css/stylish-portfolio.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="<?php echo getenv('ASSETS_BASE_URL') ?>assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic|Offside" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="top" class="header">
+        <div class="text-vertical-center">
+
+            <a href="?random=<?php echo substr(md5(uniqid()), 0, 6) ?>"><img src="<?php echo getenv('ASSETS_BASE_URL') ?>assets/img/logo.png" class="logo" /></a>
+
+            <?php if($error): ?>
+                <div class="row"><hr /></div>
+                <div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-alert"></span> <strong> Error: </strong><?php echo $error ?></div>
+                <div class="row"><hr /></div>
+            <?php else: ?>
+                <div class="row"><hr /></div>
+
+                <h2 id="quote" data-qod-id="<?php echo $quote['id'] ?>"><?php echo $quote['quote'] ?></h2>
+                <h5>&#8212; <?php echo $quote['author'] ?></h5>
+
+                <div class="row">
+                <p>
+                <?php foreach($quote['tags'] as $tag): ?>
+                    <span class="label label-default">#<?php echo $tag ?></span>
+                <?php endforeach; ?>
+                </p>
+                </div>
+
+                <div class="row"><hr /></div>
+
+                <div class="row">
+
+                <?php if($messages['liked']) : ?>
+                    <div class="alert alert-success" role="alert"> <span class="glyphicon glyphicon-thumbs-up"></span> <strong>Thanks!</strong> Your like has been recorded!</div>
+                <?php endif; ?>
+
+                    <div class="col-lg-1 col-lg-offset-5 text-center">
+                        <span class="btn btn-lg btn-dark"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 2,334</a>
+                    </div>
+
+                    <div class="col-lg-1 text-center">
+                    <form method="POST" action="like/<?php echo $quote['id'] ?>">
+                        <button class="btn btn-success btn-lg" type="submit">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                            <!--<span class="badge">4</span>-->
+                            Like
+                        </button>
+                    </form>
+                    </div>
+                </div>
+
+            <?php endif; ?>
+
+        </div>
+    </header>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="http://rizavi.co"><i class="fa fa-globe fa-fw fa-3x"></i></a>
+                        </li>
+                        <li>
+                            <a href="http://facebook.com/rizavico"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
+                        </li>
+                        <li>
+                            <a href="http://twitter.com/rizavico"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
+                        </li>
+                    </ul>
+                    <hr class="small">
+                    <p class="text-muted">Copyright &copy; Ali Rizavi <?php echo date("Y"); ?></p>
+                    <p class="text-muted small"><small>Served by <code><?php echo getenv('APP_STAGE') ?></code>. Assets server: <code><?php echo getenv('ASSETS_BASE_URL') ?></code>.</small></p>
+                </div>
+            </div>
+        </div>
+        <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="<?php echo getenv('ASSETS_BASE_URL') ?>assets/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo getenv('ASSETS_BASE_URL') ?>assets/js/bootstrap.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script>
+    //#to-top button appears after scrolling
+    var fixed = false;
+    $(document).scroll(function() {
+        if ($(this).scrollTop() > 250) {
+            if (!fixed) {
+                fixed = true;
+                // $('#to-top').css({position:'fixed', display:'block'});
+                $('#to-top').show("slow", function() {
+                    $('#to-top').css({
+                        position: 'fixed',
+                        display: 'block'
+                    });
+                });
+            }
+        } else {
+            if (fixed) {
+                fixed = false;
+                $('#to-top').hide("slow", function() {
+                    $('#to-top').css({
+                        display: 'none'
+                    });
+                });
+            }
+        }
+    });
+    </script>
+
+</body>
+
+</html>
