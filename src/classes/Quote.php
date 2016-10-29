@@ -19,6 +19,8 @@ class Quote{
         // If already in DB then return that
         if($quoteFromDB != null){
             $quote = json_decode($quoteFromDB['json_blurb'], true);
+            $quote['likes'] = $quoteFromDB['likes'];
+            $quote['views'] = $quoteFromDB['views'];
             return $quote;
         }
 
@@ -26,8 +28,8 @@ class Quote{
         $quote = $this->callApi();
 
         // store in the DB:
-        $stmt = $this->db->prepare("INSERT INTO `my_quotes` (`quote_id`, `created`, `category`, `json_blurb`) VALUES(?, NOW(), ?, ?)");
-        $stmt->execute(array($quote['id'], $quote['category'], json_encode($quote)));
+        $stmt = $this->db->prepare("INSERT INTO `my_quotes` (`quote_id`, `created`, `category`, `json_blurb`, `likes`, `views`) VALUES(?, NOW(), ?, ?, ?, ?)");
+        $stmt->execute(array($quote['id'], $quote['category'], json_encode($quote), 0, 1));
 
         return $quote;
     }
@@ -37,6 +39,7 @@ class Quote{
         $stmt->execute(array($this->category));
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($rows)){
+            $this->db->exec("UPDATE `my_quotes` SET `views` = `views`+1 WHERE `quote_id`='".$rows[0]['quote_id']."' LIMIT 1");
             return $rows[0];
         }
         return null;

@@ -23,6 +23,7 @@ $app->get('/[{category}]', function ($request, $response, $args) {
 })->setName('welcome');
 
 $app->post('/like/{id}', function ($request, $response, $args) {
+    $this->db->exec("UPDATE `my_quotes` SET `likes` = `likes`+1 WHERE `quote_id`='".$args['id']."' LIMIT 1");
     $this->flash->addMessage('liked', true);
     return $response->withRedirect($this->router->pathFor('welcome'));
 });

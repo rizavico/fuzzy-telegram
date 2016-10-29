@@ -64,14 +64,17 @@
                 <?php endif; ?>
 
                     <div class="col-lg-1 col-lg-offset-5 text-center">
-                        <span class="btn btn-lg btn-dark"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 2,334</a>
+                        <span class="btn btn-lg btn-dark"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <?php echo $quote['views'] ?></a>
                     </div>
 
                     <div class="col-lg-1 text-center">
                     <form method="POST" action="like/<?php echo $quote['id'] ?>">
                         <button class="btn btn-success btn-lg" type="submit">
-                            <span class="glyphicon glyphicon-thumbs-up"></span>
-                            <!--<span class="badge">4</span>-->
+                            <?php if($quote['likes']): ?>
+                                <span class="badge"><?php echo $quote['likes'] ?></span>
+                            <?php else: ?>
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                            <?php endif; ?>
                             Like
                         </button>
                     </form>
