@@ -38,11 +38,11 @@
             <a href="?random=<?php echo substr(md5(uniqid()), 0, 6) ?>"><img src="<?php echo getenv('ASSETS_BASE_URL') ?>assets/img/logo.png" class="logo" /></a>
 
             <?php if($error): ?>
-                <div class="row"><hr /></div>
+                <hr />
                 <div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-alert"></span> <strong> Error: </strong><?php echo $error ?></div>
-                <div class="row"><hr /></div>
+                <hr />
             <?php else: ?>
-                <div class="row"><hr /></div>
+                <hr />
 
                 <h2 id="quote" data-qod-id="<?php echo $quote['id'] ?>"><?php echo $quote['quote'] ?></h2>
                 <h5>&#8212; <?php echo $quote['author'] ?></h5>
@@ -55,7 +55,7 @@
                 </p>
                 </div>
 
-                <div class="row"><hr /></div>
+                <hr />
 
                 <div class="row">
 
