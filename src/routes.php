@@ -1,7 +1,7 @@
 <?php
 // Routes
 $app->get('/health', function ($request, $response, $args) {
-    return $response->withJson(array("status"=>"I am alive!"));
+    return $response->withJson(array("status"=>"I am not alive!"));
 });
 
 $app->get('/[{category}]', function ($request, $response, $args) {
