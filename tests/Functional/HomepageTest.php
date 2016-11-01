@@ -12,7 +12,7 @@ class HomepageTest extends BaseTestCase
         $response = $this->runApp('GET', '/health');
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContains('I am alive!', (string)$response->getBody());
+        $this->assertContains('alive!', (string)$response->getBody());
         $this->assertNotContains('Foo Bar', (string)$response->getBody());
     }
 
