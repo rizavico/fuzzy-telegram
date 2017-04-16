@@ -28,19 +28,26 @@ class Quote{
         $quote = $this->callApi();
 
         // store in the DB:
-        $stmt = $this->db->prepare("INSERT INTO `my_quotes` (`quote_id`, `created`, `category`, `json_blurb`, `likes`, `views`) VALUES(?, NOW(), ?, ?, ?, ?)");
-        $stmt->execute(array($quote['id'], $quote['category'], json_encode($quote), 0, 1));
-
+        try{
+            $stmt = $this->db->prepare("INSERT INTO `my_quotes` (`quote_id`, `created`, `category`, `json_blurb`, `likes`, `views`) VALUES(?, NOW(), ?, ?, ?, ?)");
+            $stmt->execute(array($quote['id'], $quote['category'], json_encode($quote), 0, 1));
+        }catch(Exception $e){
+            // Database doesn't exist?
+        }
         return $quote;
     }
 
     private function fetchFromDatabase(){
-        $stmt = $this->db->prepare("SELECT * FROM `my_quotes` WHERE DATE(`created`) = DATE(NOW()) AND `category` = ?");
-        $stmt->execute(array($this->category));
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if(!empty($rows)){
-            $this->db->exec("UPDATE `my_quotes` SET `views` = `views`+1 WHERE `quote_id`='".$rows[0]['quote_id']."' LIMIT 1");
-            return $rows[0];
+        try{
+            $stmt = $this->db->prepare("SELECT * FROM `my_quotes` WHERE DATE(`created`) = DATE(NOW()) AND `category` = ?");
+            $stmt->execute(array($this->category));
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($rows)){
+                $this->db->exec("UPDATE `my_quotes` SET `views` = `views`+1 WHERE `quote_id`='".$rows[0]['quote_id']."' LIMIT 1");
+                return $rows[0];
+            }
+        }catch(Exception $e){
+            // Failed to connect to the Database?
         }
         return null;
     }
