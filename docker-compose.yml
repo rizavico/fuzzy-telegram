@@ -1,0 +1,28 @@
+version: '2.1'
+
+services:
+  web:
+    # target: prod # See: https://docs.docker.com/compose/compose-file/compose-file-v2/#build
+    # image: fuzzytelegram_build:latest
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    environment:
+      APP_STAGE: DEVELOPMENT
+      ASSETS_BASE_URL: http://172.16.125.128:8080/
+      RDS_HOSTNAME: db
+      RDS_DB_NAME: quotesdb
+      RDS_USERNAME: root
+      RDS_PASSWORD: Rd7TuJ3yUJBs3q9b2zCsxxckgf89hQHp
+    links:
+      - db
+
+  db:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: Rd7TuJ3yUJBs3q9b2zCsxxckgf89hQHp
