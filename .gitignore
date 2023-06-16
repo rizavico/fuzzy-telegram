@@ -2,4 +2,4 @@
 /logs/*
 !/logs/README.md
 *.log
-/composer.lock
+composer.lock
