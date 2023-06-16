@@ -1,7 +1,7 @@
 <?php
 class Quote{
-    static private $CATEGORIES = array("inspire", "management", "sports", "life", "funny");
-    static private $ENDPOINT = "http://quotes.rest/qod.json?category=%s";
+    static private $CATEGORIES = array("inspiration", "sports", "funny", "technology", "business");
+    static private $ENDPOINT = "http://www.rizavi.co/quotes/quotes.json";
 
     private $db;
     private $category;
@@ -47,8 +47,8 @@ class Quote{
 
     private function callApi(){
         // prepare the URL to call
-        $endpoint = sprintf( self::$ENDPOINT, $this->category );
-
+        $endpoint = self::$ENDPOINT;
+        
         // call URL and get contents
         $content = file_get_contents($endpoint);
 
@@ -59,12 +59,17 @@ class Quote{
 
         // Parse JSON response
         $response = json_decode($content, true);
-
+        
+        $quotes = $response[$this->category];
+        
+        // Randomize the quotes
+        shuffle($quotes);
+        
         // Return just the quote
-        $quote = $response['contents']['quotes'][0];
+        $quote = $quotes[0];
         $quote['requested_category'] = $this->category;
         if(!$quote['id']){
-            $quote['id'] = substr( md5($str), 0, 32); // just a unique id if missing
+            $quote['id'] = substr( md5($str), 0, 32); // add a unique id if missing
         }
 
         return $quote;
