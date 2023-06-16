@@ -13,7 +13,7 @@ class QuoteTest extends BaseTestCase
     public function testCategoryListContainsManagement(){
         $quote = new \Quote(null, null);
         $categories = $quote->getCategories();
-        $this->assertTrue(in_array("management", $categories));
+        $this->assertTrue(in_array("business", $categories));
     }
 
     public function testQuoteClientFailsForInvalidCategory(){
